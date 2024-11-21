@@ -41,8 +41,7 @@ function updateProgress() {
   progressBar.value = prog;
   curTime.textContent = formatTime(audio.currentTime);
   if (audio.ended) {
-    playPauseBtn.classList.remove("pause");
-    playPauseBtn.classList.add("play");
+    switchClass(playPauseBtn, "play", "pause");
     clearInterval(progression);
     autoPlay();
   }
@@ -77,27 +76,28 @@ function updateVolume(event) {
 
   if (audio.volume > 0) {
     audio.muted = false;
-    soundMuteBtn.classList.remove("mute");
-    soundMuteBtn.classList.add("sound");
+    switchClass(soundMuteBtn, "sound", "mute");
   } else {
     audio.muted = true;
-    soundMuteBtn.classList.add("mute");
-    soundMuteBtn.classList.remove("sound");
+    switchClass(soundMuteBtn, "mute", "sound");
   }
 }
 function handleMute() {
   audio.muted = !audio.muted;
   if (audio.muted) {
-    soundMuteBtn.classList.add("mute");
-    soundMuteBtn.classList.remove("sound");
+    switchClass(soundMuteBtn, "mute", "sound");
   } else {
-    soundMuteBtn.classList.remove("mute");
-    soundMuteBtn.classList.add("sound");
+    switchClass(soundMuteBtn, "sound", "mute");
     if (audio.volume === 0) {
       audio.volume = 0.5;
       volume.value = 0.5;
     }
   }
+}
+
+function switchClass(elem, class1, class2) {
+  elem.classList.add(class1);
+  elem.classList.remove(class2);
 }
 function shuffleTracks() {
   let randomTrack = Math.floor(Math.random() * audioData.length);
